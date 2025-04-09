@@ -21,7 +21,7 @@ public class VoiceControl {
     private final Consumer<String> commandHandler;
 
     // Usa la ruta relativa donde tengas el modelo
-    private static final String MODEL_PATH = "C:/Users/Kent/Desktop/DAMMari/DESARROLLO DE INTERFACES/UNIDAD 08/vosk-model-small-es-0.42";
+    private static final String MODEL_PATH = "recursos/vosk-model-small-es-0.42";
 
     public VoiceControl(Consumer<String> commandHandler) {
         this.commandHandler = commandHandler;
