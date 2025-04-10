@@ -15,7 +15,7 @@ public class Shape {
 
     public enum Tetrominoes {
         NoShape, ZShape, SShape, LineShape,
-        TShape, SquareShape, LShape, MirroredLShape
+        TShape, SquareShape, LShape, MirroredLShape, DimensionalShape
     };
 
     private Tetrominoes pieceShape;
@@ -77,16 +77,16 @@ public class Shape {
         }
         return m;
     }
-    
+
     public int getWidth() {
-    int minX = 4;
-    int maxX = 0;
-    for (int i = 0; i < 4; i++) {
-        minX = Math.min(minX, x(i));
-        maxX = Math.max(maxX, x(i));
+        int minX = 4;
+        int maxX = 0;
+        for (int i = 0; i < 4; i++) {
+            minX = Math.min(minX, x(i));
+            maxX = Math.max(maxX, x(i));
+        }
+        return maxX - minX + 1;
     }
-    return maxX - minX + 1;
-}
 
     public Shape rotateRight() {
         if (pieceShape == Tetrominoes.SquareShape) {
@@ -101,5 +101,21 @@ public class Shape {
             result.setY(i, x(i));
         }
         return result;
+    }
+
+    public void setDimensionalShape() {
+        Random random = new Random();
+        // La pieza Dimensional cambia aleatoriamente entre diferentes formas
+        Tetrominoes[] shapes = {
+            Tetrominoes.TShape,
+            Tetrominoes.LShape,
+            Tetrominoes.SShape,
+            Tetrominoes.ZShape,
+            Tetrominoes.LineShape
+        };
+
+        // Selecciona una forma aleatoria
+        Tetrominoes newShape = shapes[random.nextInt(shapes.length)];
+        setShape(newShape);
     }
 }

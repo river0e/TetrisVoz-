@@ -25,6 +25,9 @@ public class Board extends JPanel implements ActionListener {
     private int nextThreshold = 500;
 
     private Timer timer;
+    private boolean isDimensionalPiece = false; // Indicador de si la pieza es Dimensional
+    private int dimensionalShapeTimer = 0;
+    private final int DIMENSIONAL_CHANGE_INTERVAL = 10;  // Cambiar cada 20 ciclos del temporizador, ajusta como desees
     private boolean isFallingFinished = false;
     private boolean isStarted = false;
     private boolean isPaused = false;
@@ -161,6 +164,7 @@ public class Board extends JPanel implements ActionListener {
             return;
         }
 
+        isDimensionalPiece = true; // Habilita la pieza Dimensional
         isStarted = true;
         isFallingFinished = false;
         score = 0;
@@ -202,6 +206,15 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
+    public void changePiece() {
+        // Si la pieza actual es Dimensional, cambia su forma.
+        if (currentPiece.getShape() == Tetrominoes.DimensionalShape) {
+            currentPiece.setDimensionalShape();  // Cambia a una forma aleatoria
+        } else {
+            currentPiece.setRandomShape();  // O simplemente selecciona una nueva pieza aleatoria
+        }
+    }
+
     public boolean tryMove(Shape newPiece, int newX, int newY) {
         for (int i = 0; i < 4; i++) {
             int x = newX + newPiece.x(i);
@@ -224,15 +237,26 @@ public class Board extends JPanel implements ActionListener {
         if (!tryMove(currentPiece, currentX, currentY - 1)) {
             pieceDropped();
         }
+
+        // Si la pieza es Dimensional, cambia su forma al caer
+        if (currentPiece.getShape() == Tetrominoes.DimensionalShape) {
+            currentPiece.setDimensionalShape();  // Cambia de forma
+        }
     }
 
     private void pieceDropped() {
         for (int i = 0; i < 4; i++) {
             int x = currentX + currentPiece.x(i);
             int y = currentY - currentPiece.y(i);
-            board[y * BOARD_WIDTH + x] = currentPiece.getShape();
+
+            // Asegúrate de que las coordenadas sean válidas antes de asignar
+            if (x >= 0 && x < BOARD_WIDTH && y >= 0 && y < BOARD_HEIGHT) {
+                board[y * BOARD_WIDTH + x] = currentPiece.getShape();
+            }
         }
+
         removeFullLines();
+
         if (!isFallingFinished) {
             newPiece();
         }
@@ -369,7 +393,16 @@ public class Board extends JPanel implements ActionListener {
 
     public void moveDown() {
         if (canMove()) {
+            // Si la pieza es Dimensional y ha llegado el momento de cambiar de forma
+            if (isDimensionalPiece && dimensionalShapeTimer % DIMENSIONAL_CHANGE_INTERVAL == 0) {
+                currentPiece.setDimensionalShape(); // Cambia la forma de la pieza Dimensional
+            }
+
+            // Mueve la pieza una línea hacia abajo
             oneLineDown();
+
+            // Incrementa el contador de tiempo para el cambio de forma
+            dimensionalShapeTimer++;
         }
     }
 

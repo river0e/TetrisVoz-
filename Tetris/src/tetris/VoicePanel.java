@@ -49,10 +49,10 @@ public class VoicePanel extends JPanel {
                         board.moveRight();
                         break;
                     case "RASTRIGHT":
-                        board.moveRasRight(); // Llamamos al nuevo método para el movimiento rápido a la derecha
+                        board.moveRasRight();
                         break;
                     case "RASTLEFT":
-                        board.moveRasLeft(); // Llamamos al nuevo método para el movimiento rápido a la izquierda
+                        board.moveRasLeft();
                         break;
                     case "DOWN":
                         board.moveDown();
@@ -74,6 +74,10 @@ public class VoicePanel extends JPanel {
                         break;
                     case "JUMP":
                         board.jumpUp();
+                        break;
+                    case "CHANGE":
+                        // Cambia la pieza cuando se diga "cambio"
+                        board.changePiece();
                         break;
                     default:
                         System.out.println("[VoiceControl] Comando no reconocido: " + command);

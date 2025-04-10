@@ -117,11 +117,11 @@ public class VoiceControl {
             if (normalized.contains("izquierda")) {
                 commandHandler.accept("LEFT");
             } else if (normalized.contains("derecha")) {
-                commandHandler.accept("RIGHT"); 
+                commandHandler.accept("RIGHT");
             } else if (normalized.contains("diestro")) {
-                commandHandler.accept("RASTRIGHT"); 
-                } else if (normalized.contains("zurdo")) {
-                commandHandler.accept("RASTLEFT"); 
+                commandHandler.accept("RASTRIGHT");
+            } else if (normalized.contains("zurdo")) {
+                commandHandler.accept("RASTLEFT");
             } else if (normalized.contains("abajo") || normalized.contains("dale")) {
                 commandHandler.accept("DOWN");
             } else if (normalized.contains("gira") || normalized.contains("girar")) {
@@ -136,6 +136,9 @@ public class VoiceControl {
                 commandHandler.accept("UP");
             } else if (normalized.contains("salto")) {
                 commandHandler.accept("JUMP");
+            } else if (normalized.contains("cambio")) {
+                // Si se dice "cambio", se ejecuta el comando para cambiar la pieza
+                commandHandler.accept("CHANGE");
             } else {
                 System.out.println("[VoiceControl] Comando no reconocido: " + result);
             }
